@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#e9eef3" id="themeColorMeta" />
+  <title>DayOne</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <section class="auth-screen" id="authScreen">
+    <div class="auth-card">
+      <div class="auth-brand"><div class="brand-placeholder" aria-hidden="true">D</div><h1>DayOne</h1><p>Todo dia é uma nova oportunidade. 🌱</p></div>
+      <div class="auth-heading"><h2 id="authTitle">Entre na sua conta</h2><p id="authDescription">Continue acompanhando sua jornada.</p></div>
+      <div class="auth-tabs" role="tablist" aria-label="Acesso">
+        <button type="button" class="auth-tab is-active" id="loginTab" role="tab" aria-selected="true">Entrar</button>
+        <button type="button" class="auth-tab" id="signupTab" role="tab" aria-selected="false">Criar conta</button>
+      </div>
+      <form id="authForm" class="auth-form">
+        <label id="nameField" hidden><span>Seu nome (opcional)</span><input id="displayName" type="text" autocomplete="name" /></label>
+        <label><span>E-mail</span><input id="authEmail" type="email" autocomplete="email" required /></label>
+        <label><span>Senha</span><input id="authPassword" type="password" minlength="6" autocomplete="current-password" required /></label>
+        <button class="button button--primary auth-submit" id="authSubmit" type="submit">Entrar</button>
+      </form>
+      <button class="auth-reset" type="button" id="resetPasswordButton">Esqueci minha senha</button>
+      <p class="auth-feedback" id="authFeedback" role="status" aria-live="polite"></p>
+      <p class="auth-config-note" id="authConfigNote" hidden>Configure a URL e a chave pública do Supabase no arquivo js/supabase-config.js.</p>
+    </div>
+  </section>
+  <div class="app-shell" id="appShell" hidden>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Todo dia é uma nova oportunidade</p>
+        <h1>DayOne</h1>
+      </div>
+      <div class="topbar__actions">
+        <button class="icon-button" id="themeButton" type="button" aria-label="Alternar tema" title="Alternar tema">☾</button>
+        <button class="icon-button" id="signOutButton" type="button" aria-label="Sair da conta" title="Sair">↪</button>
+        <button class="icon-button" id="openSettings" type="button" aria-label="Abrir configurações" title="Configurações">⚙️</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero card">
+        <div class="hero__icon" aria-hidden="true">🧠</div>
+        <p class="hero__label">Você está sem fumar há</p>
+
+        <div class="counter" aria-live="polite">
+          <div class="counter__item"><strong id="days">0</strong><span>dias</span></div>
+          <div class="counter__item"><strong id="hours">00</strong><span>horas</span></div>
+          <div class="counter__item"><strong id="minutes">00</strong><span>min</span></div>
+          <div class="counter__item"><strong id="seconds">00</strong><span>seg</span></div>
+        </div>
+
+        <p class="motivational-message" id="motivationalMessage">Cada minuto conta. Continue.</p>
+
+        <div class="hero__actions">
+          <button class="button button--primary" id="cravingButton" type="button">Estou com vontade de fumar</button>
+          <button class="button button--ghost" id="shareButton" type="button">Compartilhar conquista</button>
+        </div>
+      </section>
+
+      <section class="stats-grid" aria-label="Resumo da jornada">
+        <article class="stat-card card" id="cigarettesAvoidedCard" hidden>
+          <div class="stat-card__icon" aria-hidden="true">🚬</div>
+          <div class="stat-card__content"><span>Unidades não fumadas</span><strong id="cigarettesAvoided">0</strong><small id="unitsAvoidedDetails" class="stat-card__details"></small></div>
+        </article>
+
+        <article class="stat-card card" id="moneySavedCard" hidden>
+          <div class="stat-card__icon" aria-hidden="true">💰</div>
+          <div><span>Economia total estimada</span><strong id="moneySaved">R$ 0,00</strong></div>
+        </article>
+
+        <article class="stat-card card">
+          <div class="stat-card__icon" aria-hidden="true">⏳</div>
+          <div><span>Tempo conquistado</span><strong id="timeSmokeFree">0 horas</strong></div>
+        </article>
+      </section>
+
+      <section class="card product-savings-section" id="productSavingsSection" hidden>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Seu progresso</p>
+            <h2>Economia por item</h2>
+          </div>
+        </div>
+        <div class="product-savings-grid" id="productSavingsGrid"></div>
+      </section>
+
+      <section class="card progress-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Próxima conquista</p>
+            <h2 id="nextAchievementTitle">1 hora</h2>
+          </div>
+        </div>
+
+        <div class="progress-track" role="progressbar"
+             aria-label="Progresso para a próxima conquista"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress-bar" id="achievementProgress"></div>
+        </div>
+
+        <p class="progress-caption" id="achievementCaption">Você acabou de começar. Um passo de cada vez.</p>
+      </section>
+
+      <section class="card body-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Seu corpo está mudando</p>
+            <h2 id="bodyBenefitTitle">Cada escolha faz diferença</h2>
+          </div>
+        </div>
+
+        <div class="body-benefit">
+          <div class="body-benefit__icon" id="bodyBenefitIcon" aria-hidden="true">🌱</div>
+          <div>
+            <h3 id="bodyBenefitHeading">Você já começou</h3>
+            <p id="bodyBenefitText">Seu corpo já está respondendo à decisão de ficar sem fumar.</p>
+          </div>
+        </div>
+
+        <p class="body-message">Não importa há quanto tempo você fuma. Cada dia é uma nova oportunidade de se cuidar.</p>
+      </section>
+
+      <section class="card achievements-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Marcos</p>
+            <h2>Suas conquistas</h2>
+          </div>
+        </div>
+        <div class="achievements" id="achievements"></div>
+      </section>
+
+      <section class="card support-section">
+        <div class="support-section__icon" aria-hidden="true">💛</div>
+        <div>
+          <p class="eyebrow">Lembrete</p>
+          <h2>Você não precisa vencer o resto da vida hoje.</h2>
+          <p>Só precisa atravessar este momento. Respire, mude de ambiente, beba água e dê alguns minutos para a vontade diminuir.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer><p>Feito para acompanhar progresso, não perfeição.</p></footer>
+  </div>
+
+  <dialog class="modal" id="settingsModal">
+    <form method="dialog" class="modal__content" id="settingsForm">
+      <div class="modal__header">
+        <div>
+          <p class="eyebrow">Configurações</p>
+          <h2>Personalize sua jornada</h2>
+        </div>
+        <button class="icon-button" id="closeSettings" type="button" aria-label="Fechar">✕</button>
+      </div>
+
+      <div class="form-grid start-date-grid">
+        <label>
+          <span>Quando você parou?</span>
+          <input type="datetime-local" id="startDate" />
+          <small class="first-start-note">Na primeira configuração, a contagem começa ao salvar seus dados.</small>
+        </label>
+      </div>
+
+      <section class="product-settings">
+        <h3>O que você deseja acompanhar?</h3>
+        <p class="settings-help">Selecione os produtos que deseja acompanhar. Seda e filtros só aparecem quando tabaco ou maconha estiverem selecionados; informe apenas as quantidades usadas por dia.</p>
+        <div class="product-options">
+          <label class="product-option"><input type="checkbox" id="selectCigarettes" /> <span>🚬 Cigarro industrializado</span></label>
+          <label class="product-option"><input type="checkbox" id="selectTobacco" /> <span>🍂 Tabaco para enrolar</span></label>
+          <label class="product-option"><input type="checkbox" id="selectMarijuana" /> <span>🌿 Maconha</span></label>
+          <label class="product-option"><input type="checkbox" id="selectFilters" /> <span>🔘 Filtros (embalagem compartilhada)</span></label>
+        </div>
+      </section>
+
+      <div class="product-fields" id="cigarettesFields" hidden>
+        <h3>Cigarro industrializado</h3>
+        <div class="form-grid">
+          <label><span>Cigarros por dia</span><input type="number" id="cigarettesPerDay" min="0.1" max="200" step="0.1" value="20" /></label>
+          <label><span>Preço do maço (R$)</span><input type="number" id="packPrice" min="0" step="0.01" value="12.00" /></label>
+          <label><span>Cigarros por maço</span><input type="number" id="cigarettesPerPack" min="1" max="100" value="20" /></label>
+        </div>
+      </div>
+
+      <div class="product-fields" id="tobaccoFields" hidden>
+        <h3>Tabaco para enrolar</h3>
+        <div class="form-grid">
+          <label><span>Unidades fumadas por dia</span><input type="number" id="tobaccoUnitsPerDay" min="0" step="1" value="1" /></label>
+          <label><span>Preço da embalagem (R$)</span><input type="number" id="tobaccoPackPrice" min="0" step="0.01" value="20" /></label>
+          <label><span>Gramas por embalagem</span><input type="number" id="tobaccoPackGrams" min="0.1" step="0.1" value="30" /></label>
+          <label><span>Tabaco por cigarro (g)</span><input type="text" id="tobaccoGramsPerUnit" inputmode="decimal" autocomplete="off" placeholder="0,8" value="0,8" /></label>
+        </div>
+        <p class="settings-help">Estimativa inicial de 0,8 g por unidade. Você pode ajustar conforme a quantidade que costuma usar.</p>
+      </div>
+
+      <div class="product-fields" id="marijuanaFields" hidden>
+        <h3>Maconha</h3>
+        <div class="form-grid">
+          <label><span>Unidades fumadas por dia</span><input type="number" id="marijuanaUnitsPerDay" min="0" step="1" value="1" /></label>
+          <label><span>Preço por grama (R$)</span><input type="number" id="marijuanaPricePerGram" min="0" step="0.01" value="20" /></label>
+          <label><span>Maconha por unidade (g)</span><input type="text" id="marijuanaGramsPerUnit" inputmode="decimal" autocomplete="off" placeholder="0,8" value="0,8" /></label>
+        </div>
+        <p class="settings-help">Estimativa inicial de 0,8 g por unidade. Você pode ajustar conforme a quantidade que costuma usar.</p>
+      </div>
+
+      <div class="product-fields" id="paperFields" hidden>
+        <h3>Seda</h3>
+        <div class="form-grid">
+          <label><span>Sedas usadas por dia</span><input type="number" id="paperSheetsPerDay" min="0" step="1" value="0" /></label>
+          <label><span>Preço da embalagem (R$)</span><input type="number" id="paperPackPrice" min="0" step="0.01" value="5" /></label>
+          <label><span>Folhas por embalagem</span><input type="number" id="paperSheetsPerPack" min="1" step="1" value="50" /></label>
+        </div>
+      </div>
+
+
+      <div class="product-fields" id="filtersFields" hidden>
+        <h3>Filtros compartilhados</h3>
+        <p class="settings-help">Informe o uso total de filtros por dia, mesmo que use a mesma embalagem para tabaco e maconha.</p>
+        <div class="form-grid">
+          <label><span>Filtros usados por dia</span><input type="number" id="filtersPerDay" min="0" step="1" value="0" /></label>
+          <label><span>Preço da embalagem (R$)</span><input type="number" id="filtersPackPrice" min="0" step="0.01" value="5" /></label>
+          <label><span>Filtros por embalagem</span><input type="number" id="filtersPerPack" min="1" step="1" value="50" /></label>
+        </div>
+      </div>
+
+      <div class="modal__actions">
+        <button type="submit" class="button button--primary">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="modal craving-modal" id="cravingModal">
+    <div class="modal__content">
+      <div class="modal__header">
+        <div>
+          <p class="eyebrow">Este momento vai passar</p>
+          <h2>Foque nos próximos 5 minutos</h2>
+        </div>
+        <button class="icon-button" id="closeCraving" type="button" aria-label="Fechar">✕</button>
+      </div>
+
+      <div class="breathing-box">
+        <div class="breathing-circle" id="breathingCircle"><span id="breathingText">Respire</span></div>
+      </div>
+
+      <div class="coping-grid">
+        <button class="coping-card" type="button" data-tip="water">
+          <span>💧</span><strong>Beba água</strong>
+          <small>Devagar, prestando atenção em cada gole.</small>
+        </button>
+        <button class="coping-card" type="button" data-tip="move">
+          <span>🚶</span><strong>Mude de ambiente</strong>
+          <small>Faça uma pequena caminhada ou vá para outro cômodo.</small>
+        </button>
+        <button class="coping-card" type="button" data-tip="delay">
+          <span>⏱️</span><strong>Adie por 10 minutos</strong>
+          <small>Você não precisa decidir nada agora.</small>
+        </button>
+      </div>
+
+      <p class="craving-message" id="cravingMessage">A vontade costuma vir em ondas. Ela cresce, atinge um pico e depois diminui.</p>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/app.js?v=4"></script>
+</body>
+</html>
